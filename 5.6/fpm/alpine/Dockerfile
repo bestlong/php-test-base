@@ -1,5 +1,7 @@
 FROM php:5.6-fpm-alpine
 
+# https://github.com/xlanger/docker/blob/master/php/5.6.30-fpm-alpine/Dockerfile
+
 RUN set -ex \
  && apk add --no-cache --virtual .build-deps \
         autoconf \
