@@ -5,8 +5,8 @@ RUN apt-get update -yqq \
     libxslt-dev \
  && docker-php-ext-install mbstring mcrypt pdo_pgsql curl json intl gd xml zip bz2 opcache \
     xsl
-#  && pecl install xdebug \
-#  && docker-php-ext-enable xdebug
 
-RUN php -m
-RUN php --ini
+RUN pecl install xdebug-2.5.5 \
+ && docker-php-ext-enable xdebug
+
+RUN php -m && php --ini

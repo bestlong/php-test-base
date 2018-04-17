@@ -25,9 +25,10 @@ RUN set -ex \
  && docker-php-ext-install \
         mbstring mcrypt pdo_pgsql curl json intl gd xml zip bz2 opcache \
  && pecl install \
-        xdebug \
+        xdebug-2.5.5 \
  && docker-php-ext-enable \
         xdebug \
+ && php -m && php --init \
  && cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime \
  && echo "Asia/Taipei" >  /etc/timezone \
  && apk del .build-deps
