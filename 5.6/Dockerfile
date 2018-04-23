@@ -1,6 +1,6 @@
 FROM php:5.6
 
-RUN apt-get update -yqq \
+RUN apt-get update \
  && apt-get install -yqq git \
         libmcrypt-dev \
         libpq-dev \
@@ -24,6 +24,7 @@ RUN apt-get update -yqq \
         libpcre3-dev \
         libtidy-dev \
         libxslt-dev \
+        mysql-client \
  && docker-php-ext-install mbstring mcrypt \
         pdo_mysql pdo_pgsql curl json intl gd xml zip bz2 opcache \
         xsl

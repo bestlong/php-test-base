@@ -22,6 +22,7 @@ RUN set -ex \
         libpng-dev \
         libxml2-dev \
         bzip2-dev \
+        mysql-client \
  && docker-php-ext-install \
         mbstring mcrypt \
         pdo_mysql pdo_pgsql curl json intl gd xml zip bz2 opcache \
