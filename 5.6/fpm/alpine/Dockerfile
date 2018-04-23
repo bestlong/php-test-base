@@ -23,7 +23,8 @@ RUN set -ex \
         libxml2-dev \
         bzip2-dev \
  && docker-php-ext-install \
-        mbstring mcrypt pdo_pgsql curl json intl gd xml zip bz2 opcache \
+        mbstring mcrypt \
+        pdo_mysql pdo_pgsql curl json intl gd xml zip bz2 opcache \
  && pecl install \
         xdebug-2.5.5 \
  && docker-php-ext-enable \
