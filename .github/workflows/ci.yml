@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         php_version: ["5.6", "7.2"]
+        dockerfile_path: ['php', 'php/fpm']
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -44,7 +45,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          file: Dockerfile-${{ matrix.php_version }}
+          build-args:
+            _PHP_VERSION: ${{ matrix.php_version }}
+          context: ${{ matrix.dockerfile_path }}
           platforms: linux/amd64,linux/arm64,linux/386
           push: ${{ (github.repository == 'bestlong/php-test-base') }}
           tags: ${{ steps.meta.outputs.tags }}
