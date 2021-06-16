@@ -1,8 +1,9 @@
 ARG _PHP_VERSION
 FROM php:${_PHP_VERSION}-fpm
 
-RUN apt-get update \
-  && apt-get install -yqq git \
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -yqq git \
         libmcrypt-dev \
         libpq-dev \
         libcurl4-gnutls-dev \
@@ -27,16 +28,19 @@ RUN apt-get update \
         libxslt-dev \
         # mysql-client \
         mariadb-client \
-  && docker-php-ext-install mbstring mcrypt \
+        ; \
+    docker-php-ext-install mbstring; \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      docker-php-ext-install mcrypt; \
+    fi; \
+    docker-php-ext-install \
         pdo_mysql pdo_pgsql curl json intl gd xml zip bz2 opcache \
         xsl
 
-RUN set - eux; \
+RUN set -eux; \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install xdebug-2.5.5; \
     else \
       pecl install xdebug; \
     fi; \
- && docker-php-ext-enable xdebug
-
-RUN php -m && php --ini
+    docker-php-ext-enable xdebug
