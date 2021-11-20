@@ -5,7 +5,7 @@ services:
     build:
       context: ./php/fpm
       args:
-        - _PHP_VERSION=7.4
+        - _PHP_VERSION=7.2
     environment:
       - TZ=Asia/Taipei
   php-fpm56:
