@@ -44,6 +44,11 @@ RUN set -eux \
   &&  docker-php-ext-install zip \
   &&  php -m | grep -oiE '^zip$' \
   ### xdebug
+  &&  docker-php-ext-install \
+        pdo_mysql pdo_pgsql curl json intl gd xml bz2 opcache \
+        xsl
+
+RUN set -eux \
   &&  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         pecl install xdebug-2.5.5; \
       else \
@@ -51,8 +56,3 @@ RUN set -eux \
       fi \
   &&  docker-php-ext-enable xdebug \
   &&  php -m | grep -oiE '^xdebug$'
-
-RUN set -eux \
-  && docker-php-ext-install \
-        pdo_mysql pdo_pgsql curl json intl gd xml bz2 opcache \
-        xsl
