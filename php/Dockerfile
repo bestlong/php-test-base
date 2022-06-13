@@ -28,21 +28,31 @@ RUN set -eux; \
         libxslt-dev \
         # mysql-client \
         mariadb-client \
-        ; \
-    docker-php-ext-install mbstring; \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      docker-php-ext-install mcrypt; \
-    fi; \
-    docker-php-ext-install \
-        pdo_mysql pdo_pgsql curl json intl gd xml zip bz2 opcache \
+        ;
+
+RUN set -eux \
+  ### mbstring
+  # &&  docker-php-ext-install mbstring; \
+  # &&  php -m | grep -oiE '^mbstring$' \
+  ### mcrypt
+  &&  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        docker-php-ext-install mcrypt; \
+      fi \
+  # &&  php -m | grep -oiE '^mcrypt$' \
+  ### zip
+  &&  apt-get install -yqq libzip-dev zip unzip \
+  &&  docker-php-ext-install zip \
+  &&  php -m | grep -oiE '^zip$' \
+  ### xdebug
+  &&  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install xdebug-2.5.5; \
+      else \
+        pecl install xdebug; \
+      fi \
+  &&  docker-php-ext-enable xdebug \
+  &&  php -m | grep -oiE '^xdebug$'
+
+RUN set -eux \
+  && docker-php-ext-install \
+        pdo_mysql pdo_pgsql curl json intl gd xml bz2 opcache \
         xsl
-
-RUN set -eux; \
-    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install xdebug-2.5.5; \
-    else \
-      pecl install xdebug; \
-    fi; \
-    docker-php-ext-enable xdebug
-
-RUN apt-get install -yq
