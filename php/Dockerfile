@@ -45,6 +45,7 @@ RUN set -eux \
   &&  php -m | grep -oiE '^zip$' \
   ### xdebug
   &&  docker-php-ext-install \
+        mysqli \
         pdo_mysql pdo_pgsql curl json intl gd xml bz2 opcache \
         xsl
 
