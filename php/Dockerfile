@@ -52,6 +52,9 @@ RUN set -eux \
 RUN set -eux \
   &&  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         pecl install xdebug-2.5.5; \
+      elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ] \
+        || [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70400" ]; then \
+        pecl install xdebug-3.1.6; \
       else \
         pecl install xdebug; \
       fi \
