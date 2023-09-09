@@ -50,6 +50,11 @@ RUN set -eux \
         xsl
 
 RUN set -eux \
+  ### redis
+  &&  pecl install redis \
+  &&  docker-php-ext-enable redis \
+  &&  php -m | grep -oiE '^redis$' \
+  ### xdebug
   &&  if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
         pecl install xdebug-2.5.5; \
       elif [ $(php -r "echo PHP_VERSION_ID - PHP_RELEASE_VERSION;") = "70200" ] \
